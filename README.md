@@ -12,7 +12,7 @@
 |---|---|
 | **计划任务** | `me-archive-daily` —— 每天 **23:50**，错过会在下次开机补跑 |
 | **本地镜像** | `D:\me-archive-backup\` —— 每次跑完自动同步一份 |
-| **远端** | GitHub（**待配**，见下面「同步到 GitHub」） |
+| **远端** | GitHub `p2x1/me-archive`（⚠️ **仓库还没建**，见下面「同步到 GitHub」） |
 
 你什么都不用做。**想手动跑一次**：
 
@@ -97,11 +97,22 @@ graph/graph-memory.db     440.0 KB  ->  596.0 KB   ok
 
 想换地方（U 盘、网盘同步目录都行）：改 `run-daily.ps1` 顶部的 `$Mirror`。
 
-### ② GitHub（待配）
+### ② GitHub `p2x1/me-archive`
 
-`me-archive\` 已经是一个 git 仓库（分支 `main`），每次跑完会自动 `commit`。**只差一个远端。**
+`me-archive\` 已经是一个 git 仓库（分支 `main`），每次跑完会自动 `commit`。
 
-**为什么需要你自己动手**：建仓库和授权都得用你的 GitHub 账号，我没有你的凭据，也不该有。
+**当前进度（2026-10-07 实测）：**
+
+| 步骤 | 状态 |
+|---|---|
+| SSH 公钥贴到 GitHub | ✅ 已生效 —— `ssh -T` 返回 `Hi p2x1!` |
+| git 远端 `origin` 配好 | ✅ 已指向 `ssh://git@github.com:443/p2x1/me-archive.git` |
+| **GitHub 上创建仓库** | ❌ **还没做** —— 推送返回 `ERROR: Repository not found.` |
+
+> **这个判据很硬**：SSH 是拿你自己的密钥认证成 `p2x1` 的，**你自己名下的私有仓库一定能看到**。
+> 返回 `Repository not found` 就说明 `p2x1/me-archive` 这个仓库确实不存在（不是权限问题）。
+
+**为什么建仓库这一步得你自己动手**：它要登录你的 GitHub 账号，我没有你的凭据，也不该有。
 
 **两步，在浏览器里做：**
 
@@ -121,15 +132,27 @@ graph/graph-memory.db     440.0 KB  ->  596.0 KB   ok
 
 **做完这两步，回来跟我说一声**，我来接远端、推第一次，然后测一遍。之后就是全自动了。
 
-**或者你自己敲**（把地址换成你的）：
+**或者你自己敲**：
 
 ```powershell
 cd C:\Users\xp\Documents\deepseek-harness\default-workspace\me-archive
-git remote add origin git@github.com:你的用户名/me-archive.git
+git remote set-url origin ssh://git@github.com:443/p2x1/me-archive.git
 git push -u origin main
 ```
 
-> **本机 GitHub 走的是 443 端口。** `github.com` 被 Steam++ 加速器写进了 hosts 指向 `127.0.0.1`，22 端口连不上，所以 `~/.ssh/config` 里配了 `HostName ssh.github.com` / `Port 443`（这是 GitHub 官方给受限网络留的通道）。**你什么都不用管，`git@github.com:...` 照常写就行。**
+> ⚠️ **远端地址必须写成 `ssh://git@github.com:443/...`，不能写 `git@github.com:...`。**
+> 两条本机特色（2026-10-07 全部实测）：
+>
+> **1. 22 端口不通。** `github.com` 被 Steam++ 加速器写进 hosts 指向 `127.0.0.1`，所以 `~/.ssh/config` 把 `github.com` 映射到 GitHub 官方留的 443 通道 `ssh.github.com:443`。
+>
+> **2. 有一条 `insteadOf` 会静默改写地址。** 全局 git 配置里存在：
+> ```
+> url.https://github.com/.insteadOf = git@github.com:
+> ```
+> 它把**所有** `git@github.com:` 开头的地址改写成 `https://github.com/` —— **SSH 密钥根本用不上**，而 https 需要 token（凭据管理器里没有），于是只报一句含糊的 `Repository not found`。
+> `ssh://git@github.com:443/...` 因为带了端口，**不匹配 `ssh://git@github.com/` 这条前缀**，才真能走 SSH。
+>
+> **排查口诀**：`ssh -T git@github.com` 返回 `Hi <用户名>!` **不等于** git 能用 SSH —— Windows 自带 OpenSSH 能忍 `~/.ssh/config` 的 UTF-8 BOM，而 **Git 自带的 ssh 会直接拒解析**（`Bad configuration option: \357\273\277#`）。**`.ssh/config` 和 `.ps1` 一样，不能有 BOM。**
 
 ---
 

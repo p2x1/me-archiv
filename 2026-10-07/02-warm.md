@@ -35,3 +35,8 @@
 
 **中文 Windows · PowerShell 脚本编码坑**：Windows PowerShell 5.1（`powershell.exe`）读取**不带 BOM 的 UTF-8** `.ps1` 时会按 GBK 解码，中文注释/字符串被解崩，报 `ParserError: MissingArrayIndexExpression` / `The string is missing the terminator`，脚本以 exit code 1 退出且不执行任何一行。**写含中文的 `.ps1` 必须存成 UTF-8 with BOM**（首三字节 `EF BB BF`）。检查：`[System.IO.File]::ReadAllBytes($f)[0..2]`；修复：`[System.IO.File]::WriteAllText($f, $t, (New-Object System.Text.UTF8Encoding $true))`。Python 脚本不受影响（Python 3 源码默认按 UTF-8 读），所以 `snapshot.py` 有中文注释也没事；纯 ASCII 脚本（如 `.bat`）同样没事。
 <!-- last_access: 2026-10-07 16:01 -->
+
+## 2026-10-07 16:10 [experience] high
+
+**第二个 BOM 坑（2026-10-07 实查）**：`C:\Users\xp\.ssh\config` 原本带 UTF-8 BOM（首三字节 `EF BB BF`），导致 **Git 自带的 MSYS ssh 拒绝解析**：`Bad configuration option: \357\273\277#` → `fatal: Could not read from remote repository`。而 **Windows 自带的 OpenSSH（`C:\Windows\System32\OpenSSH\ssh.exe`）容忍 BOM**，同一个配置 `ssh -T git@github.com` 正常返回 `Hi p2x1!`——**所以"ssh 能用"不代表 git 能用**。修复：`[System.IO.File]::WriteAllText($f,$t,(New-Object System.Text.UTF8Encoding $false))` 去掉 BOM，并把中文注释改成 ASCII。已备份 `.ssh\config.bak-*`。**结论：ssh config 和 .ps1 一样，不能带 BOM。**
+<!-- last_access: 2026-10-07 16:10 -->
