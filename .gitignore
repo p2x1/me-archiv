@@ -1,0 +1,7 @@
+# 日志不进版本库，也不进镜像
+logs/
+
+# Python 的缓存
+__pycache__/
+*.pyc
+.tmp/
