@@ -12,7 +12,7 @@
 |---|---|
 | **计划任务** | `me-archive-daily` —— 每天 **23:50**，错过会在下次开机补跑 |
 | **本地镜像** | `D:\me-archive-backup\` —— 每次跑完自动同步一份 |
-| **远端** | GitHub `p2x1/me-archive`（⚠️ **仓库还没建**，见下面「同步到 GitHub」） |
+| **远端** | GitHub **`p2x1/me-archiv`**（Private）—— 每次跑完自动 push ✅ |
 
 你什么都不用做。**想手动跑一次**：
 
@@ -97,48 +97,44 @@ graph/graph-memory.db     440.0 KB  ->  596.0 KB   ok
 
 想换地方（U 盘、网盘同步目录都行）：改 `run-daily.ps1` 顶部的 `$Mirror`。
 
-### ② GitHub `p2x1/me-archive`
+### ② GitHub `p2x1/me-archiv` — ✅ 已接通（2026-10-07 16:13 实测）
 
-`me-archive\` 已经是一个 git 仓库（分支 `main`），每次跑完会自动 `commit`。
+> ⚠️ **仓库名是 `me-archiv`（少一个 `e`），不是 `me-archive`。**
+> 本地文件夹叫 `me-archive`，GitHub 仓库叫 `me-archiv` —— **以远端地址为准**。
+> 名字差一个字母，`git push` 只回一句 `ERROR: Repository not found.`，看着像权限问题，其实是地址错了。
 
-**当前进度（2026-10-07 实测）：**
+`me-archive\` 是 git 仓库（分支 `main`），每次跑完自动 `commit` + `push`。
 
 | 步骤 | 状态 |
 |---|---|
-| SSH 公钥贴到 GitHub | ✅ 已生效 —— `ssh -T` 返回 `Hi p2x1!` |
-| git 远端 `origin` 配好 | ✅ 已指向 `ssh://git@github.com:443/p2x1/me-archive.git` |
-| **GitHub 上创建仓库** | ❌ **还没做** —— 推送返回 `ERROR: Repository not found.` |
+| SSH 公钥贴到 GitHub | ✅ `ssh -T` 返回 `Hi p2x1!` |
+| GitHub 上创建仓库 | ✅ `p2x1/me-archiv`（Private） |
+| git 远端 `origin` | ✅ `ssh://git@github.com:443/p2x1/me-archiv.git` |
+| 首次推送 | ✅ `main -> main`，远端 SHA 与本地一致 |
+| 自动链路 | ✅ `run-daily.ps1` 全程退出码 0，含 push |
 
-> **这个判据很硬**：SSH 是拿你自己的密钥认证成 `p2x1` 的，**你自己名下的私有仓库一定能看到**。
-> 返回 `Repository not found` 就说明 `p2x1/me-archive` 这个仓库确实不存在（不是权限问题）。
-
-**为什么建仓库这一步得你自己动手**：它要登录你的 GitHub 账号，我没有你的凭据，也不该有。
-
-**两步，在浏览器里做：**
-
-1. **建仓库** —— 打开 <https://github.com/new>
-   - 名字：`me-archive`
-   - **选 Private（私有）** ⚠️ 这个文件夹里有 `04-journal.md`，是你和我的**全部原始对话流水**，还有整个记忆库。**别选 Public。**
-   - **不要**勾 "Add a README"（本地已经有内容了）
-   - 建完把地址复制下来，形如 `git@github.com:你的用户名/me-archive.git`
-
-2. **贴公钥** —— 打开 <https://github.com/settings/keys> → `New SSH key`
-   - Title 随便填，比如 `DESKTOP-FP0D6KN`
-   - Key 贴这一整行（公钥，可以公开）：
-
-   ```
-   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE7qa6Oak9ZaanN74xkk85gge/x7XHquKkfN+a3ljW8Y me-archive@DESKTOP-FP0D6KN
-   ```
-
-**做完这两步，回来跟我说一声**，我来接远端、推第一次，然后测一遍。之后就是全自动了。
-
-**或者你自己敲**：
+**验证远端与本地一致**：
 
 ```powershell
 cd C:\Users\xp\Documents\deepseek-harness\default-workspace\me-archive
-git remote set-url origin ssh://git@github.com:443/p2x1/me-archive.git
+git rev-parse HEAD          # 本地 SHA
+git ls-remote origin        # 远端 SHA —— 两个应该相同
+```
+
+**要换远端**（改用户名或仓库名）：
+
+```powershell
+git remote set-url origin ssh://git@github.com:443/<用户名>/<仓库名>.git
 git push -u origin main
 ```
+
+**本机公钥**（贴在 <https://github.com/settings/keys>，公钥可以公开）：
+
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE7qa6Oak9ZaanN74xkk85gge/x7XHquKkfN+a3ljW8Y me-archive@DESKTOP-FP0D6KN
+```
+
+> ⚠️ **这个仓库必须是 Private。** 里面有 `04-journal.md` —— 是你和我的**全部原始对话流水**，外加整个记忆库。**别选 Public。**
 
 > ⚠️ **远端地址必须写成 `ssh://git@github.com:443/...`，不能写 `git@github.com:...`。**
 > 两条本机特色（2026-10-07 全部实测）：
