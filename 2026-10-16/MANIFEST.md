@@ -1,6 +1,6 @@
 # 2026-10-16 的这一份
 
-> 封存于 2026-10-16 20:42:54
+> 封存于 2026-10-16 23:50:02
 
 
 ## 可以直接读的
@@ -10,7 +10,7 @@
 | 灵魂卡 | `01-soul.md` | 6.6 KB | 64 |  |
 | 海马体·暖态 | `02-warm.md` | 33.4 KB | 260 | 42 条记忆 |
 | 海马体·冷储 | — | — | — | 当天还没有 |
-| 序时账·2026-10-16 | `04-journal.md` | 36.3 KB | 400 |  |
+| 序时账·2026-10-16 | `04-journal.md` | 146.9 KB | 1786 |  |
 
 ## 封存起来的记忆库
 
@@ -20,11 +20,11 @@
 | 记忆宫殿 | `engram--project-5bcec3b011ea6c2b304250ca.db` | 164.0 KB | 164.0 KB | ok |
 | 记忆宫殿 | `engram--project-de19b9f575c1aa1b7144e1f0.db` | 172.0 KB | 172.0 KB | ok |
 | 记忆宫殿 | `engram--shared.db` | 164.0 KB | 164.0 KB | ok |
-| 记忆宫殿 | `engram--user.db` | 1.21 MB | 1.21 MB | ok |
+| 记忆宫殿 | `engram--user.db` | 1.22 MB | 1.22 MB | ok |
 | 短期记忆 | `memento--memory.db` | 52.0 KB | 52.0 KB | ok |
-| 会话图谱 | `graph--graph-memory.db` | 1.83 MB | 1.88 MB | ok |
+| 会话图谱 | `graph--graph-memory.db` | 1.91 MB | 1.91 MB | ok |
 
-全部打包在 `memory.zip`（787.2 KB）。
+全部打包在 `memory.zip`（796.2 KB）。
 
 ## 怎么把它装回去
 
