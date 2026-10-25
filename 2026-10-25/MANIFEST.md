@@ -1,6 +1,6 @@
 # 2026-10-25 的这一份
 
-> 封存于 2026-10-25 21:18:37
+> 封存于 2026-10-25 23:50:03
 
 
 ## 可以直接读的
@@ -10,7 +10,7 @@
 | 灵魂卡 | `01-soul.md` | 6.6 KB | 64 |  |
 | 海马体·暖态 | `02-warm.md` | 37.5 KB | 330 | 56 条记忆 |
 | 海马体·冷储 | — | — | — | 当天还没有 |
-| 序时账·2026-10-25 | `04-journal.md` | 12.2 KB | 109 |  |
+| 序时账·2026-10-25 | `04-journal.md` | 45.9 KB | 374 |  |
 
 ## 封存起来的记忆库
 
@@ -21,7 +21,7 @@
 | 记忆宫殿 | `engram--project-9204a37c683fecdec599ca2a.db` | 188.0 KB | 188.0 KB | ok |
 | 记忆宫殿 | `engram--project-de19b9f575c1aa1b7144e1f0.db` | 312.0 KB | 340.0 KB | ok |
 | 记忆宫殿 | `engram--shared.db` | 164.0 KB | 164.0 KB | ok |
-| 记忆宫殿 | `engram--user.db` | 4.56 MB | 5.81 MB | ok |
+| 记忆宫殿 | `engram--user.db` | 4.56 MB | 5.82 MB | ok |
 | 短期记忆 | `memento--memory.db` | 60.0 KB | 64.0 KB | ok |
 | 会话图谱 | `graph--graph-memory.db` | 2.71 MB | 2.74 MB | ok |
 
